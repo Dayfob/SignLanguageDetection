@@ -2,6 +2,9 @@ import torch
 import numpy as np
 import cv2
 from spellchecker import SpellChecker
+from gtts import gTTS
+import datetime
+import os
 
 model = torch.hub.load('ultralytics/yolov5',
                        'custom',
@@ -56,5 +59,15 @@ for word in sentence:
         continue
     output += spell.correction(word) + ' '
 
-print(output.lower())
+output = output.lower()
+
+print(output)
+
+language = 'en'
+recording_name = "recording.mp3"
+
+recording = gTTS(text=output, lang=language, slow=False)
+
+recording.save(recording_name)
+os.system(recording_name)
 
